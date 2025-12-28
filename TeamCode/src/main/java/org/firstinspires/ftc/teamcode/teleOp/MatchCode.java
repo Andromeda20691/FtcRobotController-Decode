@@ -59,8 +59,8 @@ public class MatchCode extends OpMode
 
     private CRServo crServoTest;
 
-    private double CLAW_OPEN_POSITION = 0.6;
-    private double CLAW_CLOSED_POSITION = 0.35;
+    private double CLAW_OPEN_POSITION = 1;
+    private double CLAW_CLOSED_POSITION = -1;
     private double Claw_Tilt_Down = 0;
     private double Claw_Tilt_Mid = 0.28;
     private double Claw_Tilt_Up = 0.4;
