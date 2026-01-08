@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.canvas.Canvas;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -16,7 +17,7 @@ import com.qualcomm.robotcore.hardware.PwmControl;
 
 
 @TeleOp(name="Matchcode", group="Iterative Opmode")
-
+@Disabled
 public class MatchCode extends OpMode
 {
 
@@ -74,6 +75,7 @@ public class MatchCode extends OpMode
 
 
     @Override
+
     public void init() {
         leftFront = hardwareMap.dcMotor.get("leftFront");
         leftBack = hardwareMap.dcMotor.get("leftBack");
