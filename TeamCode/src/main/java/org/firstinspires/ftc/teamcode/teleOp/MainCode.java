@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp(name="MainCode", group="Iterative Opmode")
 
-public class MainCode extends LinearOpMode
+public class MainCode extends OpMode
 {
 
     private double speedMultiplier = 1;
