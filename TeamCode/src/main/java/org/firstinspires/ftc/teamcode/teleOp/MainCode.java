@@ -66,8 +66,10 @@ public class MainCode extends OpMode
         colorSensor = hardwareMap.get(NormalizedColorSensor.class, "colorSensor");
         colorSensor.setGain(40);
 
+        // TODO: 1/9/2026 here chage the ction of the outake motors they are prob wronge because i didnt have time to check them
         outtakeTop.setDirection(DcMotorSimple.Direction.FORWARD);
         outtakeBottom.setDirection(DcMotorSimple.Direction.REVERSE);
+
 
         intakeMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 

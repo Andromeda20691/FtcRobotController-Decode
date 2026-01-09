@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Drawing;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
+import org.firstinspires.ftc.teamcode.PinpointLocalizer;
 import org.firstinspires.ftc.teamcode.TankDrive;
 
 public class LocalizationTest extends LinearOpMode {
@@ -19,6 +20,8 @@ public class LocalizationTest extends LinearOpMode {
 
         if (TuningOpModes.DRIVE_CLASS.equals(MecanumDrive.class)) {
             MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
+            //PinpointLocalizer pinpoint = new PinpointLocalizer(hardwareMap, 499.95, new Pose2d(0,0,0));
+            //drive.setLocalizer(pinpoint);
 
             waitForStart();
 

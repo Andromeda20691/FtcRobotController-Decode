@@ -1,5 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
+
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
@@ -68,6 +73,13 @@ public final class PinpointLocalizer implements Localizer {
 
             return new PoseVelocity2d(robotVelocity, driver.getHeadingVelocity(UnnormalizedAngleUnit.RADIANS));
         }
+        // TODO: 1/9/2026 the telmtry here is giving error on the driver hub this telemtry packet
+        //  should be inported the correct one please find and import it so that we can get data from the pinpoint computer
+        telemetry.addData("PINPOINT X (in)", driver.getPosX(DistanceUnit.CM));
+        telemetry.addData("PINPOINT Y (in)", driver.getPosY(DistanceUnit.CM));
+        telemetry.addData("PINPOINT Heading (deg)",driver.getHeading(UnnormalizedAngleUnit.DEGREES));
+        telemetry.update();
+
         return new PoseVelocity2d(new Vector2d(0, 0), 0);
     }
 }
