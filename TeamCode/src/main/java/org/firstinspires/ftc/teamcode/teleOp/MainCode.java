@@ -26,20 +26,32 @@ public class MainCode extends OpMode
     private DcMotor intakeMotor;
 
     private Servo sorterServo;
+    private Servo shooterServo;
 
     private NormalizedColorSensor colorSensor;
 
     private double sorterPos1 = 1.0;
     private double sorterPos2 = 0.5;
     private double sorterPos3 = 0.0;
-
     private double sorterServoPos = 0.0;
 
-    int sorterState = 0;
-    boolean lastA = false;
+    private double shooterMinPos = 1.0;
+    private double shooterMaxPos = 0.4;
+    private double shooterPos3 = 0.8;
+    private double shooterPos4 = 0.7;
+    private double shooterPos5 = 0.6;
+    private double shooterPos6 = 0.5;
+    private double shooterPos7 = 0.4;
+
+    private double shooterCurrentPos = 1.0;
+    private boolean lastY = false;
+    private boolean lastA = false;
+    private final double shooterStep = 0.1;
 
     boolean intakeOn = false;
-    boolean lastY = false;
+    boolean outtakeOn = false;
+    boolean lastx = false;
+    boolean lastb = false;
 
 
 
@@ -62,6 +74,8 @@ public class MainCode extends OpMode
         intakeMotor = hardwareMap.dcMotor.get("intakeMotor");
 
         sorterServo = hardwareMap.servo.get("sorterServo");
+        shooterServo =hardwareMap.servo.get("shooterServo");
+
 
         colorSensor = hardwareMap.get(NormalizedColorSensor.class, "colorSensor");
         colorSensor.setGain(40);
@@ -102,7 +116,7 @@ public class MainCode extends OpMode
             speedMultiplier = 1;
         }
         y = -gamepad1.left_stick_y;
-        x = gamepad1.left_stick_x;
+        x = -gamepad1.left_stick_x;
         rx = gamepad1.right_stick_x;
         denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
         frontLeftPower = (y + x + rx) / denominator * speedMultiplier;
@@ -119,22 +133,59 @@ public class MainCode extends OpMode
         sorterServoPos = sorterServo.getPosition();
 
 
-        if (gamepad2.a){
+        boolean outtakeToggleButton = gamepad1.b;
+        if (outtakeToggleButton && !lastb) {
+            outtakeOn = !outtakeOn;
+        }
+        lastb = outtakeToggleButton;
+
+        if (outtakeOn){
             outtakeTop.setPower(1);
             outtakeBottom.setPower(1);
-        }else if (gamepad2.b){
+        }else {
             outtakeTop.setPower(0);
             outtakeBottom.setPower(0);
         }
 
 
-        boolean intakeToggleButton = gamepad2.y;
-        if (intakeToggleButton && !lastY) {
+        boolean yPressed = gamepad1.y;
+        boolean aPressed = gamepad1.a;
+
+        /* MOVE DOWN (Y) */
+        if (yPressed && !lastY) {
+            shooterCurrentPos -= shooterStep;
+
+            if (shooterCurrentPos < shooterMinPos) {
+                shooterCurrentPos = shooterMinPos;
+            }
+
+            shooterServo.setPosition(shooterCurrentPos);
+        }
+
+        /* MOVE UP (A) */
+        if (aPressed && !lastA) {
+            shooterCurrentPos += shooterStep;
+
+            if (shooterCurrentPos > shooterMaxPos) {
+                shooterCurrentPos = shooterMaxPos;
+            }
+
+            shooterServo.setPosition(shooterCurrentPos);
+        }
+
+        lastY = yPressed;
+        lastA = aPressed;
+
+
+
+
+        boolean intakeToggleButton = gamepad1.x;
+        if (intakeToggleButton && !lastx) {
             intakeOn = !intakeOn;
         }
-        lastY = intakeToggleButton;
+        lastx = intakeToggleButton;
 
-        double manualPower = -gamepad2.right_stick_y;
+        double manualPower = -gamepad1.right_stick_y;
 
         if (Math.abs(manualPower) < 0.05) {
             manualPower = 0;
@@ -154,31 +205,15 @@ public class MainCode extends OpMode
 
 
 
-        boolean a = gamepad2.x;
-        if (a && !lastA) {
-            sorterState = (sorterState + 1) % 3;
-        }
-        switch (sorterState) {
-            case 0:
-                sorterServo.setPosition(sorterPos1);
-                break;
-            case 1:
-                sorterServo.setPosition(sorterPos2);
-                break;
-            case 2:
-                sorterServo.setPosition(sorterPos3);
-                break;
-        }
-        lastA = a;
         
 
-        if (gamepad2.dpad_left){
+        if (gamepad1.dpad_left){
             sorterServo.setPosition(sorterPos1);
         }
-        if (gamepad2.dpad_up){
+        if (gamepad1.dpad_up){
             sorterServo.setPosition(sorterPos2);
         }
-        if (gamepad2.dpad_right){
+        if (gamepad1.dpad_right){
             sorterServo.setPosition(sorterPos3);
         }
 
