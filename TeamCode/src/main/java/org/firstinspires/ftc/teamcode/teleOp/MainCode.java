@@ -208,6 +208,7 @@ public class MainCode extends OpMode
             finalIntakePower = 0;
         }
 
+
         intakeMotor1.setPower(finalIntakePower);*/
 
         double stickIntakePower = -gamepad1.right_stick_y;
